@@ -110,7 +110,7 @@ class WorkController(openerp.http.Controller):
                             content = work.get("hr_analytic_timesheet_id")[1],
                             hour = work.get("hours",8),
                             username = work.get("user_id")[1],
-                            data = str(work.get("create_date","")).split(" ")[0],
+                            date = str(work.get("create_date","")).split(" ")[0],
                         ))
                     task_list.append(dict(
                         name = task.get("name",""),
