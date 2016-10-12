@@ -124,3 +124,49 @@ class WorkController(openerp.http.Controller):
             res["error_info"] = str(e)
             return res
         return res
+
+    @http.route('/worksheet/members', type='http', auth="none", methods=["GET"])
+    @serialize_exception
+    def members(self,**kw):
+        res = utils.init_response_data()
+        try:
+            env = request.env
+            domain = []
+            members = env['hr.employee'].sudo().search_read(domain)
+            member_list = []
+            for member in members:
+                member_list.append(dict(
+                    id = member.get("id",0),
+                    name = member.get("name",""),
+                ))
+            res["data"]["member_list"] = member_list
+        except Exception, e:
+            res["code"] = status.Status.ERROR
+            res["error_info"] = str(e)
+            return res
+        return res
+
+    @http.route('/worksheet/work/create', type='http', auth="none", methods=["POST"])
+    @serialize_exception
+    def work_create(self, **kw):
+        res = utils.init_response_data()
+        try:
+            env = request.env
+            name = kw.get("content","")
+            date = datetime.datetime.now()
+            task_id = kw.get("task_id")
+            hours = kw.get("hours", 8)
+            user_id = kw.get("user_id")
+            work = dict(
+                name=name,
+                date=date,
+                task_id=task_id,
+                hours=hours,
+                user_id=user_id,
+            )
+            env['project.task.work'].sudo().create(work)
+        except Exception, e:
+            res["code"] = status.Status.ERROR
+            res["error_info"] = str(e)
+            return res
+        return res
