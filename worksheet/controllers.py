@@ -76,7 +76,8 @@ class WorkController(openerp.http.Controller):
         res = utils.init_response_data()
         try:
             env = request.env
-            tasks = env['project.task'].sudo().search_read()
+            domain = []
+            tasks = env['project.task'].sudo().search_read(domain)
             res["data"]["tasks"] = tasks
         except Exception, e:
             res["code"] = status.Status.ERROR
@@ -90,8 +91,33 @@ class WorkController(openerp.http.Controller):
         res = utils.init_response_data()
         try:
             env = request.env
-            domain = []
+            domain = [("worksheet", "=", True)]
             projects = env['project.project'].sudo().search_read(domain)
+            for project in projects :
+                domain = kw.get("domain", [("project_id","=",project.get("id",0))])
+                tasks = env['project.task'].sudo().search_read(domain)
+                task_list = []
+                for task in tasks:
+                    curr_time = str(datetime.datetime.now()).split(" ")[0]
+                    start_time = curr_time + " " + "00:00:00.000"
+                    end_time = curr_time + " " + "23:59:59.999"
+                    domain = [("create_date", ">", start_time), ("create_date", "<", end_time),
+                              ("task_id", "=", task.get("id", 0))]
+                    works = env['project.task.work'].sudo().search_read(domain)
+                    work_list = []
+                    for work in works:
+                        work_list.append(dict(
+                            content = work.get("hr_analytic_timesheet_id")[1],
+                            hour = work.get("hours",8),
+                            username = work.get("user_id")[1],
+                            data = str(work.get("create_date","")).split(" ")[0],
+                        ))
+                    task_list.append(dict(
+                        name = task.get("name",""),
+                        id = task.get("id",0),
+                        work_list = work_list,
+                    ))
+                project["task_list"] = task_list
             res["data"]["projects"] = projects
         except Exception, e:
             res["code"] = status.Status.ERROR
