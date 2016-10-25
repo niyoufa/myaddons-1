@@ -9,7 +9,7 @@ class Home(openerp.addons.web.controllers.main.Home):
     @openerp.http.route('/', type='http', auth="none")  # ,
     def index(self):
         self.request.render("odootask.index", {})
-        # return odootask_qweb_render.render("odootask.index", context={"login_redirect": "/"})
+        return odootask_qweb_render.render("odootask.index", context={"login_redirect": "/"})
 
     # @openerp.http.route(auth="none")
     # def web_login(self, redirect=None, *args, **kw):

@@ -343,6 +343,7 @@ class GoodsController(openerp.http.Controller):
 
             community_obj = env['odootask.community'].sudo().search_read([("name","=",community_name)])
             community_numer = community_obj[0]["number"]
+            community_id = community_obj[0]["id"]
             good_type_obj = env['odootask.task_category'].sudo().search_read([("name","=",good_type)])
             good_type_id = good_type_obj[0]["id"]
 
@@ -354,6 +355,7 @@ class GoodsController(openerp.http.Controller):
                 image_path = image_path,
                 image_url = image_url,
                 state = state,
+                community = community_id,
             )
             good_obj = env["odootask.task"].sudo().create(good)
             good_obj = env["odootask.task"].sudo().search_read([("id","=",good_obj.id)])[0]
