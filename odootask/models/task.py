@@ -31,6 +31,7 @@ class Task(osv.osv):
     _columns = {
 
         'number':fields.char('Number'),
+        'community': fields.many2one("odootask.community"),
         'category_id':fields.many2one('odootask.task_category'),
         'amount':fields.float(),
         'unit':fields.many2one("odootask.unit"),
@@ -89,6 +90,7 @@ class GoodPartner(osv.osv):
         'donatee_goods':fields.one2many("odootask.task","donee_id"),
     }
 
+# 受赠人
 class Donatee(osv.osv):
     _name = "odootask.donatee"
 
@@ -223,4 +225,14 @@ class TrackType(osv.osv):
     _columns = {
         'name':fields.char('名称'),
         'desc':fields.text('Desc'),
+    }
+
+
+# 用户
+class CommunityUser(osv.osv):
+    _name = "res.users"
+    _inherit = "res.users"
+
+    _columns = {
+        'community':fields.many2one("odootask.community","社区"),
     }

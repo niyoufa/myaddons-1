@@ -1,0 +1,28 @@
+<openerp>
+ <data>
+
+    <!--定义表单视图-->
+    <record model="ir.ui.view" id="community_user_form_view">
+        <field name="name">社区用户</field>
+        <field name="type">form</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <field name="company_id" position="after">
+                <label string="社区" />
+                <field name="community" string="社区" />
+            </field>
+
+        </field>
+    </record>
+
+    <!--定义视图动作-->
+    <record model="ir.actions.act_window"  id="action_community_user">
+        <field name="name">社区用户</field>
+        <field name="res_model">res.users</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form,tree</field>
+        <field name="view_id" ref="community_user_form_view"/>
+    </record>
+ </data>
+</openerp>

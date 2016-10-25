@@ -23,6 +23,8 @@
         'views/donator.xml',
         'views/donatee.xml',
         'views/category.xml',
+
+        'views/user.xml',
     ],
     # # data files containing optionally loaded demonstration data
     # 'demo': [
