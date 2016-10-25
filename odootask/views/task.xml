@@ -65,7 +65,6 @@
                             <field name="donator_id" string="捐赠人"/>
                             <field name="create_date" string="捐赠时间"/>
                             <field name="state" string="状态"/>
-                            <field name="community" string="社区"/>
                             <field name="remark" string="备注"/>
                         </group>
                         <notebook>
