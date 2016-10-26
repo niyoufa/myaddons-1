@@ -31,6 +31,7 @@ $(function () {
             return;
         }
         result = data.data.communitys;
+        $("#community_name").append('<option value="">请选择捐赠社区</option>');
         for(var i=0,len=result.length;i<len;i++){
             $("#community_name").append(String.format(''+
                 '<option value="{0}">{0}</option>'
@@ -38,23 +39,27 @@ $(function () {
         }
     },"json");
 
-    $.get("/good_types",{},function(data){
-        if(data.code != 1){
-            alert("加载数据失败!");
-            return;
-        }
-        result = data.data.good_types;
-        for(var i=0,len=result.length;i<len;i++){
-            if(result[i]["unit"]){
-                good_unit = "/"+result[i]["unit"][1];
-            }else{
-                good_unit = "";
+    $("#community_name").change(function(){
+        $("#good_type").empty();
+        var community_name = $("#community_name").val();
+        $.get("/good_types",{"community_name":community_name},function(data){
+            if(data.code != 1){
+                alert("加载数据失败!");
+                return;
             }
-            $("#good_type").append(String.format(''+
-                '<option value="{0}">{1}</option>'
-            ,result[i].name,result[i].name+ good_unit));
-        }
-    },"json");
+            result = data.data.good_types;
+            for(var i=0,len=result.length;i<len;i++){
+                if(result[i]["unit"]){
+                    good_unit = "/"+result[i]["unit"][1];
+                }else{
+                    good_unit = "";
+                }
+                $("#good_type").append(String.format(''+
+                    '<option value="{0}">{1}</option>'
+                ,result[i].name,result[i].name+ good_unit));
+            }
+        },"json");
+    });
 
     $.get("/units",{},function(data){
         if(data.code != 1){
@@ -122,7 +127,10 @@ $(function () {
         var remark = $("#remark").val();
         // var image_url = $("#image_url").attr("src");
         // var image_path = $("#image_path").val();
-
+        if(community_name==""){
+            alert("请选择捐赠社区!");
+            return;
+        }
         if(phone==""){
             alert("请输入手机号!");
             return;
@@ -133,7 +141,12 @@ $(function () {
         else if(donator_name==""){
             alert("请输入姓名");
             return;
-        }else if(amount == ""){
+        }
+        else if(!good_type){
+            alert("请选择捐赠物品类型!");
+            return;
+        }
+        else if(amount == ""){
             alert("请输入数量!");
             return;
         }

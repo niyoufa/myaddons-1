@@ -19,10 +19,13 @@
         'templates/upload.xml',
         'templates/donator.xml',
 
+        'views/catalog.xml',
         'views/task.xml',
+        'views/grant.xml',
         'views/donator.xml',
         'views/donatee.xml',
         'views/category.xml',
+        'views/tracktype.xml',
 
         'views/user.xml',
     ],

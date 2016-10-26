@@ -11,6 +11,7 @@
                 <group col="2">
                     <field name="name" string="名称"/>
                     <field name="unit" string="计量单位"/>
+                    <field name="community" string="社区"/>
                     <field name="image" string="图片" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
                 </group>
             </form>
@@ -25,6 +26,7 @@
             <tree string="物资种类">
                 <field name="name" string="名称" />
                 <field name="unit" string="计量单位"/>
+                <field name="community" string="社区"/>
                 <field name="create_date" string="创建时间" />
             </tree>
         </field>
@@ -37,8 +39,5 @@
         <field name="view_mode">form,tree</field>
         <field name="view_id" ref="good_category_tree_view"/>
     </record>
-    <!--定义菜单-->
-    <menuitem id="menuitem_task_category" parent="odootask.menuitem_tracks" name="物资种类"
-                  action="action_good_category"></menuitem>
  </data>
 </openerp>

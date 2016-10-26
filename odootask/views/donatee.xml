@@ -63,7 +63,6 @@
         <field name="domain" eval="[('partner_type','=','donatee')]"/>
         <field name="search_view_id" ref="donatee_search"/>
     </record>
-    <!--定义菜单-->
-    <menuitem id="menu_donatee_item" name="受赠人" parent="menuitem_tasks" action="action_donatee"/>
+
  </data>
 </openerp>

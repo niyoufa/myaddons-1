@@ -37,11 +37,11 @@
 
                         </div>
                     </div>
-                    <!-- <script>
+                     <script>
                             function takePhoto(){
-                                    $("#take_photo").click() ; 
+                                    $("#take_photo").click() ;
                             }
-                    </script> -->
+                    </script>
                 </div>
             </t>
             <t t-call="odootask.track_css"/>

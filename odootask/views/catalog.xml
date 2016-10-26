@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
+        <act_window id="action_odoo_task" res_model="odootask.task" name="捐赠物资管理" view_mode="tree,form"/>
+        <act_window id="action_odoo_grant" res_model="odootask.grant" name="发放物资管理" view_mode="tree,form"/>
+        <act_window id="action_odoo_task_unit" res_model="odootask.unit" name="计量单位"
+                    view_mode="tree,form"/>
+        <act_window id="action_odoo_task_track" res_model="odootask.track" name="物资追踪"
+                    view_mode="tree,form"/>
+        <act_window id="action_odoo_task_track_type" res_model="odootask.track_type" name="追踪类型"
+                    view_mode="tree,form"/>        
+        <act_window id="action_odoo_task_community" res_model="odootask.community" name="活动社区"
+                    view_mode="tree,form"/>
+
+        <menuitem id="menuitem_main" name="社区"></menuitem>
+
+        <menuitem id="menuitem_tasks" parent="odootask.menuitem_main" name="活动"></menuitem>
+        <menuitem id="menuitem_task" parent="odootask.menuitem_tasks" name="物资捐赠"
+                  action="odootask.action_odoo_task"></menuitem>
+        <menuitem id="menuitem_grant" parent="odootask.menuitem_tasks" name="物资发放"
+                  action="odootask.action_odoo_grant"></menuitem>
+
+        <menuitem id="menuitem_tracks" parent="odootask.menuitem_main" name="配置"></menuitem>
+        <menuitem id="menuitem_task_category" parent="odootask.menuitem_tracks" name="物资种类"
+                  action="odootask.action_good_category"></menuitem>
+        <menuitem id="menuitem_task_track_type" parent="odootask.menuitem_tracks" name="追踪类型"
+                  action="odootask.action_odoo_task_track_type"></menuitem>
+
+        <menuitem id="menuitem_users" parent="odootask.menuitem_main" name="用户"></menuitem>
+        <menuitem id="menu_donator_item" name="捐赠人" parent="odootask.menuitem_users" action="odootask.action_donator"/>
+        <menuitem id="menu_donatee_item" name="受赠人" parent="odootask.menuitem_users" action="odootask.action_donatee"/>
+
+        <menuitem id="menuitem_odootask_settings" parent="odootask.menuitem_main" name="系统"></menuitem>
+        <menuitem id="menuitem_task_community" parent="odootask.menuitem_odootask_settings" name="活动社区"
+                  action="odootask.action_odoo_task_community"></menuitem>
+        <menuitem id="menuitem_task_unit" parent="odootask.menuitem_odootask_settings" name="计量单位"
+                  action="odootask.action_odoo_task_unit"></menuitem>
 
         <record id="task_view_tree" model="ir.ui.view">
             <field name="name">odoo task view tree</field>
