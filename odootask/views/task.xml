@@ -27,12 +27,6 @@
                 <form>
                     <sheet>
                         <group>
-                            <h1>
-                                <field name="number" string="编号"/>
-                            </h1>
-                        </group>
-
-                        <group>
                             <field name="category_id" string="种类"/>
                             <field name="amount" string="数量"/>
                             <field name="unit" string="规格"/>

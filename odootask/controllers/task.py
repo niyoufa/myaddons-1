@@ -370,7 +370,8 @@ class GoodsController(openerp.http.Controller):
             good_obj = env["odootask.task"].sudo().search_read([("id","=",good_obj.id)])[0]
             good_obj_update = {}
             good_obj_update["id"] = good_obj["id"]
-            good_obj_update["number"] = "W" + "-" + community_numer  + "-"+ str(good_obj["id"]).zfill(6)
+            curr_time = str(datetime.datetime.now())
+            good_obj_update["number"] = curr_time.replace("-", "").replace(" ", "").replace(":", "").replace(".", "")
             env["odootask.task"].sudo().write(good_obj_update)
 
             created_goods = env['odootask.task'].sudo().search_read([("id","=",good_obj["id"])])
