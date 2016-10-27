@@ -36,4 +36,37 @@ $(function(){
         }
     },"json");
 
+    $("div.title span").click(function(){
+        $($(this).parent().parent()).find("div.good-tab-list").toggle();
+    });
+
+    $.get("/hot_good_types",{},function(data){
+        if(data.code != 1){
+                alert("加载数据失败!");
+                return;
+            }
+            result = data.data.good_types;
+            $("#donate_good").empty();
+            for(var i=0,len=result.length;i<len;i++){
+                $("#donate_good").append(String.format(''+
+                    '<div class="good-tab row">'+
+                       '<div class="col-xs-4">'+
+                           '<img src="/image?good_number=20161027031125236731" alt="error" class="float-left" />'+
+                       '</div>'+
+                       '<div class="col-xs-8 tab-content">'+
+                           '<p>社区： {0}</p>'+
+                           '<p>名称 : {1}</p>'+
+                           '<p>规格 : {2}</p>'+
+                           '<p>累计义捐数量 : {3} </p>'+
+                       '</div>'+
+                       '<span class="good_numer" style="display:none;">20161027031125236731</span>'+
+                    '</div>'
+                ,result[i].community[1],result[i].name,result[i].unit[1],result[i].donator_amount));
+            }
+            $(".good-tab").click(function(){
+//                var good_number = $(this).find(".good_numer").text();
+//                location.href = "/detail.html?number="+good_number;
+            });
+    },"json");
+
 });

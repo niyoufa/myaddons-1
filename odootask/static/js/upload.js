@@ -34,15 +34,19 @@ $(function () {
         $("#community_name").append('<option value="">请选择捐赠社区</option>');
         for(var i=0,len=result.length;i<len;i++){
             $("#community_name").append(String.format(''+
-                '<option value="{0}">{0}</option>'
-            ,result[i].name));
+                '<option value="{1}">{0}</option>'
+            ,result[i].name,result[i].id));
         }
     },"json");
 
     $("#community_name").change(function(){
         $("#good_type").empty();
-        var community_name = $("#community_name").val();
-        $.get("/good_types",{"community_name":community_name},function(data){
+        var community_id = $("#community_name").val();
+        if(!community_id){
+            alert("请选择捐赠社区!");
+            return;
+        }
+        $.get("/good_types",{"community_id":community_id},function(data){
             if(data.code != 1){
                 alert("加载数据失败!");
                 return;
@@ -56,7 +60,7 @@ $(function () {
                 }
                 $("#good_type").append(String.format(''+
                     '<option value="{0}">{1}</option>'
-                ,result[i].name,result[i].name+ good_unit));
+                ,result[i].id,result[i].name+ good_unit));
             }
         },"json");
     });
@@ -117,7 +121,7 @@ $(function () {
     });
 
     $("#upload_good_info").click(function(){
-        var community_name = $("#community_name").val();
+        var community_id = $("#community_name").val();
         var phone = $("#phone").val();
         var phone_code = $("#phone_code").val();
         var cardid = $("#cardid").val();
@@ -127,7 +131,7 @@ $(function () {
         var remark = $("#remark").val();
         // var image_url = $("#image_url").attr("src");
         // var image_path = $("#image_path").val();
-        if(community_name==""){
+        if(community_id==""){
             alert("请选择捐赠社区!");
             return;
         }
@@ -159,7 +163,7 @@ $(function () {
             }
 
             var good = {
-                "community_name":community_name,
+                "community_id":community_id,
                 "phone":phone,
                 "cardid":cardid,
                 "donator_name":donator_name,

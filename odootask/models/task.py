@@ -91,61 +91,88 @@ class Grant(osv.osv):
         # {'message_follower_ids': False, 'remark': False, 'create_date': '2016-10-26 08:04:50', 'track': [],
         #  'state': 'confirmed', 'amount': 1, 'donee_id': 2, 'category_id': 3, 'message_ids': False}
         context = context or {}
+
+        # 自动生成编号
         curr_time = str(datetime.datetime.now())
         number = curr_time.replace("-","").replace(" ","").replace(":","").replace(".","")
         vals["number"] = number
+
+        # 参数验证
+        if uid == 1:
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"社区用户才可以创建发放",))
         category_id = vals.get("category_id")
         if not category_id:
-            raise osv.except_osv(_('Warning!'), _("create group error: '%s'") % ("请选择种类",))
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"请选择种类",))
+        if not vals.get("amount"):
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"发放数量错误",))
+        if not vals.get("donee_id"):
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"请选择受赠人",))
+        if not vals.get("create_date"):
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"请选择时间",))
+
+        # 检查库存
+        category = self.pool.get("odootask.task_category").browse(cr,uid,[category_id],context=None)
+        amount = category.amount
+        donee_amount = vals.get("amount")
+        if donee_amount > amount:
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"库存不足",))
+
         user_obj = self.pool.get("res.users").browse(cr,uid,[uid],context=context)
-        vals["unit"] = category_id
+        category = self.pool.get("odootask.task_category").browse(cr,uid,[category_id],context=context)
+        if category:
+            vals["unit"] = category.unit.id
+        else:
+            vals["unit"] = False
+
         vals["community"] = user_obj.community.id
         res = super(Grant, self).create(cr, uid, vals, context=context)
         return res
 
     def write(self, cr, uid, ids, vals, context=None):
         context = context or {}
+        grant = self.browse(cr, uid, ids[0:1], context)[0]
+
+        # 参数验证
+        if vals.has_key("category_id") and not vals.get("category_id"):
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"请选择种类",))
+        if vals.has_key("amount") and not vals.get("amount"):
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"发放数量错误",))
+        elif vals.has_key("amount"):
+            # 检查库存
+            category_id = vals.get("category_id",False)
+            if not category_id:
+                category_id = grant.category_id.id
+            category = self.pool.get("odootask.task_category").browse(cr, uid, [category_id], context=None)
+            amount = category.amount
+            curr_donee_amount = grant.amount
+            donee_amount = vals.get("amount")
+            if donee_amount > curr_donee_amount + amount:
+                raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"库存不足",))
+
+        if vals.has_key("donee_id") and not vals.get("donee_id"):
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"请选择受赠人",))
+        if vals.has_key("create_date") and not vals.get("create_date"):
+            raise osv.except_osv(_('Warning!'), _("create error: '%s'") % (u"请选择时间",))
+
+        if vals.has_key("category_id"):
+            category_id = vals.get("category_id")
+            if category_id == False:
+                raise osv.except_osv(_('Warning!'), _("create group error: '%s'") % (u"请选择种类",))
+            else:
+                category = self.pool.get("odootask.task_category").browse(cr, uid, [category_id], context=context)
+                if category:
+                    vals["unit"] = category.unit.id
+                else:
+                    vals["unit"] = False
+        if uid != 1:
+            user_obj = self.pool.get("res.users").browse(cr, uid, [uid], context=context)
+            vals["community"] = user_obj.community.id
         res = super(Grant, self).write(cr, uid, ids, vals, context=context)
-        # group_id = ids[0]
-        # if vals.has_key("name"):
-        #     group_name = vals.get("name", "")
-        #     try:
-        #         result = Rong.rongyun_group_refresh(group_id=group_id, group_name=group_name)
-        #     except Exception, e:
-        #         raise osv.except_osv(_('Warning!'), _("create group error: '%s'") % (str(e),))
-        #
-        # user_id_list = []
-        # project = super(dhuiproject, self).browse(cr, uid, ids, context=context)
-        # creator = self.pool.get("res.users").browse(cr, uid, [uid], context=context)
-        # user_id_list.append(str(creator.user_id or uid))
-        # if vals.has_key("user_id"):
-        #     user_id = vals["user_id"]
-        #     user = self.pool.get("res.users").browse(cr, int(user_id), [int(user_id)], context=context)
-        #     user_id_list.append(str(user.user_id or user.id))
-        # else:
-        #     user_id_list.append(str(project.user_id.user_id or uid))
-        # if vals.has_key("members"):
-        #     member_id_list = vals["members"][0][2]
-        #     mongo_member_id_list = []
-        #     for member_id in member_id_list:
-        #         member = self.pool.get("res.users").browse(cr, member_id, [member_id], context=context)
-        #         mongo_member_id_list.append(str(member.user_id or member.id))
-        # user_id_list.extend(mongo_member_id_list)
-        #
-        # self.join_or_quit_group(user_id_list, group_id)
         return res
 
     def unlink(self, cr, uid, ids, context=None):
         context = context or {}
         res = super(Grant, self).unlink(cr, uid, ids, context=context)
-
-        # user_obj = self.pool.get('res.users')
-        # user = user_obj.read(cr,uid,[uid],context=context)[0]
-        # user_id = user["user_id"] or ""
-        # try:
-        #     result = Rong.rongyun_group_dismiss(user_id=uid, group_id=ids[0])
-        # except Exception, e:
-        #     raise osv.except_osv(_('Warning!'), _("dismiss group error: '%s'") % (str(e),))
         return res
 
     def search(self, cr, uid, args, offset=0, limit=None, order=None, context=None):
@@ -232,6 +259,7 @@ class Donatee(osv.osv):
 # odootask.task_category
 class TaskCategory(osv.osv):
     _name = "odootask.task_category"
+    _order = 'donator_amount desc'
 
     @api.multi
     def _get_image(self, name, args):
@@ -245,11 +273,58 @@ class TaskCategory(osv.osv):
     def _has_image(self, name, args):
         return dict((p.id, bool(p.image)) for p in self)
 
+    def donator_amount_func(self,cr,uid,ids,field_name,args,context):
+        res = {}
+        for category in self.browse(cr,uid,ids,context=None):
+            domain = [("community","=",category.community.id),("category_id","=",category.id)]
+            task_ids = self.pool.get("odootask.task").search(cr,uid,domain)
+            tasks = self.pool.get("odootask.task").browse(cr,uid,task_ids,context)
+            donator_amount = 0.0
+            for task in tasks:
+                donator_amount += task.amount
+            res[category.id] = donator_amount
+        return res
+
+    def donatee_amount_func(self, cr, uid, ids, field_name, args, context):
+        res = {}
+        for category in self.browse(cr, uid, ids, context=None):
+            domain = [("community", "=", category.community.id), ("category_id", "=", category.id)]
+            grant_ids = self.pool.get("odootask.grant").search(cr, uid, domain)
+            grants = self.pool.get("odootask.grant").browse(cr, uid, grant_ids, context)
+            donatee_amount = 0.0
+            for grant in grants:
+                donatee_amount += grant.amount
+            res[category.id] = donatee_amount
+        return res
+
+    def amount_func(self, cr, uid, ids, field_name, args, context):
+        res = {}
+        for category in self.browse(cr, uid, ids, context=None):
+            domain = [("community", "=", category.community.id), ("category_id", "=", category.id)]
+            task_ids = self.pool.get("odootask.task").search(cr, uid, domain)
+            tasks = self.pool.get("odootask.task").browse(cr, uid, task_ids, context)
+            grant_ids = self.pool.get("odootask.grant").search(cr, uid, domain)
+            grants = self.pool.get("odootask.grant").browse(cr, uid, grant_ids, context)
+            amount = 0.0
+            for task in tasks:
+                amount += task.amount
+            for grant in grants:
+                amount -= grant.amount
+            res[category.id] = amount
+        return res
+
     _columns = {
         'name':fields.char('名称'),
         'unit':fields.many2one('odootask.unit',"计量单位"),
         'community': fields.many2one("odootask.community"),
         'task_ids':fields.one2many('odootask.task','category_id'),
+
+        'donator_amount':fields.function(donator_amount_func,
+                                         type='float',method=True),
+        'donatee_amount':fields.function(donatee_amount_func,
+                                         type='float',method=True),
+        'amount':fields.function(amount_func,
+                                         type='float',method=True),
 
         # image: all image fields are base64 encoded and PIL-supported
         'image': fields.binary("Image",

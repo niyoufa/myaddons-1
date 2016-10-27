@@ -10,7 +10,7 @@
                    <div class="row" id="good_search_list_page">
 
                         <div class="col-xs-9" style="margin-top:10px;">
-                            <input id="list_number" type="text" placeholder="请输入志愿者编号" class="form-control"/>
+                            <input id="list_number" type="text" placeholder="请输入手机号" class="form-control"/>
                         </div>
 
                         <div class="col-xs-3" style="margin-top:10px;">

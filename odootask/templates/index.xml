@@ -46,16 +46,37 @@
                         </div>
 
                         <div class="col-xs-7" style="margin-top:20px;width:100%;">
-                            <input id="number" type="text" placeholder="请输入志愿者编号" class="form-control"/>
+                            <input id="number" type="text" placeholder="请输入手机号" class="form-control"/>
                         </div>
 
                     </div>
                 </div>
 
-                <div style="width:100%;" id="nearby_donate_page">
+                <div style="width:100%;" id="donate_good_page" class="nearby_donate_page">
                     <div class="title">
-                        <span>最近捐赠</span>
-                        <a href="/donator.html" style="float:right;">查询志愿者编号</a>
+                        <span style="align:center;">爱心义捐</span>
+                        <a href="#" style="float:right;">更多</a>
+                    </div>
+                    <div class="good-tab-list container-fluid" id="donate_good">
+                       <!--<div class="good-tab row">-->
+                           <!--<div class="col-xs-4">-->
+                               <!--<img src="/image?good_number=20161027031125236731" alt="error" class="float-left" />-->
+                           <!--</div>-->
+                           <!--<div class="col-xs-8 tab-content">-->
+                               <!--<p>社区： 南河社区</p>-->
+                               <!--<p>名称 : 大米</p>-->
+                               <!--<p>规格 : 20斤/袋</p>-->
+                               <!--<p>爱心数量 : 20 </p>-->
+                           <!--</div>-->
+                           <!--<span class="good_numer" style="display:none;">20161027031125236731</span>-->
+                       <!--</div>-->
+                    </div>
+                </div>
+
+                <div style="width:100%;" id="nearby_donate_page" class="nearby_donate_page">
+                    <div class="title">
+                        <span style="align:center;">最近义捐</span>
+                        <a href="#" style="float:right;">更多</a>
                     </div>
                     <div class="good-tab-list container-fluid" id="nearby_donate">
                     </div>

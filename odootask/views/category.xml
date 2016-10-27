@@ -12,6 +12,9 @@
                     <field name="name" string="名称"/>
                     <field name="unit" string="计量单位"/>
                     <field name="community" string="社区"/>
+                    <field name="donator_amount" string="义捐数量"/>
+                    <field name="donatee_amount" string="发放数量"/>
+                    <field name="amount" string="库存数量"/>
                     <field name="image" string="图片" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
                 </group>
             </form>
@@ -27,6 +30,9 @@
                 <field name="name" string="名称" />
                 <field name="unit" string="计量单位"/>
                 <field name="community" string="社区"/>
+                <field name="donator_amount" string="义捐数量"/>
+                <field name="donatee_amount" string="发放数量"/>
+                <field name="amount" string="库存数量"/>
                 <field name="create_date" string="创建时间" />
             </tree>
         </field>

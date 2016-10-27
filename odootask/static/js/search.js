@@ -10,8 +10,8 @@ $(function(){
     });
 
     $("#list_number").blur(function(){
-        var donator_number = $("#list_number").val();
-        $.get("/goods",{"donator_number":donator_number},function(data){
+        var phone = $("#list_number").val();
+        $.get("/goods",{"phone":phone},function(data){
             if(data.code != 1){
                 alert("加载数据失败!");
                 return;

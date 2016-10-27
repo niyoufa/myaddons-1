@@ -246,15 +246,30 @@ class GoodsController(openerp.http.Controller):
         res = utils.init_response_data()
         try:
             env = request.env
-            community_name = kw.get("community_name","")
-            if community_name !="":
-                community_obj = env['odootask.community'].sudo().search_read([("name", "=", community_name)])
-                community_id = community_obj[0]["id"]
-                domain = [("community", "=", community_id)]
+            community_id = kw.get("community_id","")
+            if community_id !="":
+                domain = [("community", "=", int(community_id))]
             else:
                 domain = []
 
             good_types = env['odootask.task_category'].sudo().search_read(domain)
+            res["data"]["good_types"] = good_types
+        except Exception, e:
+            res["code"] = status.Status.ERROR
+            res["error_info"] = str(e)
+            return res
+        return res
+
+    @http.route('/hot_good_types', type='http', auth="none", methods=["GET"])
+    @serialize_exception
+    def good_types(self, **kw):
+        res = utils.init_response_data()
+        try:
+            env = request.env
+            good_types = env['odootask.task_category'].sudo().search_read()
+            good_types.sort(key=lambda obj: obj["donator_amount"])
+            good_types.reverse()
+            good_types = good_types[0:5]
             res["data"]["good_types"] = good_types
         except Exception, e:
             res["code"] = status.Status.ERROR
@@ -304,12 +319,13 @@ class GoodsController(openerp.http.Controller):
         res = utils.init_response_data()
         try:
             env = request.env
-            community_name = kw.get("community_name")
+            community_id = kw.get("community_id")
             phone = kw.get("phone","")
             phone_code = kw.get("phone_code","")
             cardid = kw.get("cardid","")
             donator_name = kw.get("donator_name")
-            good_type = kw.get("good_type")
+            good_type_id = kw.get("good_type")
+            good_type_id  = int(good_type_id)
             amount = kw.get("amount")
             remark = kw.get("remark","")
             image_path = kw.get("image_path","")
@@ -349,11 +365,11 @@ class GoodsController(openerp.http.Controller):
                 donator_id = donator_obj["id"]
                 env["res.partner"].sudo().write({"id":donator_id,"number":donaor_number})
 
-            community_obj = env['odootask.community'].sudo().search_read([("name","=",community_name)])
+            community_id = int(community_id)
+            community_obj = env['odootask.community'].sudo().search_read([("id","=",community_id)])
             community_numer = community_obj[0]["number"]
-            community_id = community_obj[0]["id"]
-            good_type_obj = env['odootask.task_category'].sudo().search_read([("name","=",good_type)])
-            good_type_id = good_type_obj[0]["id"]
+            community_id = community_id
+            good_type_obj = env['odootask.task_category'].sudo().search_read([("id","=",good_type_id)])
 
             good = dict(
                 donator_id = donator_id,
@@ -394,8 +410,8 @@ class GoodsController(openerp.http.Controller):
         res = utils.init_response_data()
         try:
             env = request.env
-            donator_number = kw.get("donator_number")
-            donators = env['res.partner'].sudo().search_read([("partner_type","=","donator"),("number", "=", donator_number)])
+            phone = kw.get("phone")
+            donators = env['res.partner'].sudo().search_read([("partner_type","=","donator"),("phone", "=", phone)])
             if len(donators) == 0:
                 goods = []
             else:
@@ -506,4 +522,3 @@ class GoodsController(openerp.http.Controller):
             res["error_info"] = str(e)
             return res
         return res
-

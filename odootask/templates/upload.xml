@@ -13,6 +13,16 @@
                                 在线捐赠
                             </div>
 
+                            <!--<div id="donate_type_choose" style="margin-top:20px;" class="col-xs-12">-->
+                                <!--<div class="good-upload-content">-->
+                                        <!--<select class="form-control upload_item" id="donate_type">-->
+                                            <!--<option value="">请选择义捐方式</option>-->
+                                            <!--<option value="1">物资义捐</option>-->
+                                            <!--<option value="2">商品义捐</option>-->
+                                        <!--</select>-->
+                                <!--</div>-->
+                            <!--</div>-->
+
                             <div id="good_upload" style="margin-top:20px;" class="col-xs-12">
                                 <div class="good-upload-content">
                                         <select class="form-control upload_item" id="community_name">
@@ -27,21 +37,12 @@
                                         </select>
                                         <input type="text" placeholder="请输入捐赠数量" class="form-control upload_item" id="amount"/>
                                         <textarea placeholder="请添加备注" class="form-control upload_item" id="remark"></textarea>
-                                        <!-- <img src="/odootask/static/images/image_upload.png" id="image_upload"  class="fileinput-button" onclick="javascript:takePhoto()" />
-                                        <input type="file"  name="files" id="take_photo" style="display:none;" />
-                                        <span id="media_content">
-                                        </span> -->
                                         <button class="form-control btn btn-default upload_item" id="upload_good_info">提交</button>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                     <script>
-                            function takePhoto(){
-                                    $("#take_photo").click() ;
-                            }
-                    </script>
                 </div>
             </t>
             <t t-call="odootask.track_css"/>

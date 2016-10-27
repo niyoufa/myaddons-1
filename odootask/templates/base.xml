@@ -140,6 +140,10 @@
             <script src="odootask/static/js/donator.js"></script>
         </template>
 
+        <template id="donate_type_js" name="js">
+            <script src="odootask/static/js/donate_type.js"></script>
+        </template>
+
         <template id="main_layout">
             &lt;!DOCTYPE html&gt;
             <html lang="zh-CN">
@@ -152,7 +156,7 @@
                 </head>
                 <body style="position:relative;">
                     <!-- <t t-call="odootask.main_nav"/> -->
-                    <div name="content" style="margin-bottom:30px;">
+                    <div name="content" style="margin-bottom:60px;">
                         <t t-raw="0"/>
                     </div>
                     <t t-call="odootask.main_footer"/>

@@ -46,7 +46,7 @@
         <field name="model">odootask.donatee</field>
         <field name="arch" type="xml">
             <search>
-                <field name="display_name" string="姓名"/>
+                <field name="name" string="名称" />
                 <field name="phone" string="手机号" />
                 <field name="cardid" string="身份证"/>
             </search>
