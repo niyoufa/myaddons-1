@@ -171,12 +171,12 @@ $(function(){
             //$(document).scrollLeft() 这是获取水平滚动条的距离
 
             // 下拉
-            if ($(document).scrollTop() <= 0 && flag) {
-                flag = false;
-                $("#more_category_list").empty();
-                $("#community_name").val("");
-                get_more_category(1,10);
-            }
+//            if ($(document).scrollTop() <= 0 && flag) {
+//                flag = false;
+//                $("#more_category_list").empty();
+//                $("#community_name").val("");
+//                get_more_category(1,10);
+//            }
 
             // 上拉
             if ($(document).scrollTop() >= $(document).height() - $(window).height() && flag) {
