@@ -307,6 +307,37 @@ def send_106sms( mobile, code):
         print(content)
     return json.loads(content)
 
+#计算分页信息
+import math
+def count_page(length,page,page_size=15,page_show=10):
+    page = int(page)
+    page_size = int(page_size)
+    length = int(length)
+    if length == 0:
+        return {"enable":False,
+                "page_size":page_size,
+                "skip":0}
+    max_page = int(math.ceil(float(length)/page_size))
+    #pages_num = math.ceil(max_page/page_show)
+    page_num = int(math.ceil(float(page)/page_show))
+    pages = list(range(1,max_page+1)[((page_num-1)*page_show):(page_num*page_show)])
+    skip = (page-1)*page_size
+    if page >= max_page:
+        has_more = False
+    else:
+        has_more = True
+    pager={
+        "page_size":page_size,
+        "max_page":max_page,
+        "pages":pages,
+        "page_num":page_num,
+        "skip":skip,
+        "page":page,
+        "enable":True,
+        "has_more":has_more
+    }
+    return pager
+
 # 测试timestr
 if __name__ == "__main__":
     pass

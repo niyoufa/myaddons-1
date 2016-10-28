@@ -202,6 +202,16 @@ class GoodsController(openerp.http.Controller):
         context = dict()
         return odootask_qweb_render.render("odootask.category_detail", context=context)
 
+    @openerp.http.route("/more_category.html", type='http', auth="none", methods=["GET"])
+    def more_category(self, **kwargs):
+        context = dict()
+        return odootask_qweb_render.render("odootask.more_category", context=context)
+
+    @openerp.http.route("/more_donate.html", type='http', auth="none", methods=["GET"])
+    def more_donate(self, **kwargs):
+        context = dict()
+        return odootask_qweb_render.render("odootask.more_donate", context=context)
+
     @http.route('/good', type='http', auth="none", methods=["GET"])
     @serialize_exception
     def good(self, **kw):
@@ -259,6 +269,39 @@ class GoodsController(openerp.http.Controller):
 
             good_types = env['odootask.task_category'].sudo().search_read(domain)
             res["data"]["good_types"] = good_types
+        except Exception, e:
+            res["code"] = status.Status.ERROR
+            res["error_info"] = str(e)
+            return res
+        return res
+
+    @http.route('/more_good_types', type='http', auth="none", methods=["GET"])
+    @serialize_exception
+    def more_good_types(self, **kw):
+        res = utils.init_response_data()
+        try:
+            env = request.env
+            more = kw.get("more", False)
+            page = kw.get("page", 1)
+            page_size = kw.get("page_size", 10)
+            community_name = kw.get("community_name","")
+            if community_name != "":
+                domain = [("community.name","=",community_name)]
+            else:
+                domain = []
+            good_types = env['odootask.task_category'].sudo().search_read(domain)
+            if len(good_types):
+                good_types.sort(key=lambda obj: obj["donator_amount"])
+                good_types.reverse()
+                if more:
+                    length = len(good_types)
+                    pager = utils.count_page(length, page, page_size)
+                    good_types = good_types[pager['skip']:pager['skip'] + pager['page_size']]
+                    res["data"]["good_types"] = good_types
+                    res["pager"] = pager
+            else:
+                res["data"]["good_types"] = []
+                res["pager"] = {}
         except Exception, e:
             res["code"] = status.Status.ERROR
             res["error_info"] = str(e)
@@ -458,9 +501,19 @@ class GoodsController(openerp.http.Controller):
         try:
             env = request.env
             goods = env['odootask.task'].sudo().search_read()
-            goods.sort(key=lambda obj:obj["create_date"])
+            goods.sort(key=lambda obj: obj["create_date"])
             goods.reverse()
-            goods = goods[0:5]
+            more = kw.get("more",False)
+            page = kw.get("page",1)
+            page_size = kw.get("page_size",10)
+            if more:
+                length = len(goods)
+                pager = utils.count_page(length, page, page_size)
+                goods = goods[pager['skip']:pager['skip']+pager['page_size']]
+            else:
+                pager = {}
+                goods = goods[0:5]
+
             for good in goods :
                 create_date = good["create_date"]
                 create_date = str(datetime.datetime.strptime(create_date, "%Y-%m-%d %H:%M:%S") + datetime.timedelta(hours=8)).split(".")[0]
@@ -477,6 +530,7 @@ class GoodsController(openerp.http.Controller):
                 good["show_time"] = show_time
 
             res["data"]["goods"] = goods
+            res["pager"] = pager
         except Exception, e:
             res["code"] = status.Status.ERROR
             res["error_info"] = str(e)
@@ -501,19 +555,22 @@ class GoodsController(openerp.http.Controller):
         category_obj = env['odootask.task_category'].sudo().search([("id", "=", category_id)])
         image_data = category_obj.image
         import base64
-        image_data = base64.b64decode(image_data)
-        headers = [('Content-Type', 'image/png')]
         import hashlib
+        headers = [('Content-Type', 'image/png')]
         hashed_session = hashlib.md5(request.session_id).hexdigest()
         retag = hashed_session
         headers.append(('ETag', retag))
-        headers.append(('Content-Length', len(image_data)))
-        try:
-            ncache = int(kw.get('cache'))
-            headers.append(('Cache-Control', 'no-cache' if ncache == 0 else 'max-age=%s' % (ncache)))
-        except:
-            pass
-        return request.make_response(image_data,headers)
+        if image_data:
+            headers.append(('Content-Length', len(image_data)))
+            image_data = base64.b64decode(image_data)
+            try:
+                ncache = int(kw.get('cache'))
+                headers.append(('Cache-Control', 'no-cache' if ncache == 0 else 'max-age=%s' % (ncache)))
+            except:
+                pass
+            return request.make_response(image_data,headers)
+        else:
+            return request.make_response(image_data, headers)
 
     @http.route('/donators', type='http', auth="none", methods=["GET"])
     @serialize_exception

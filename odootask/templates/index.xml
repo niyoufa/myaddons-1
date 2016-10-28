@@ -55,7 +55,7 @@
                 <div style="width:100%;" id="donate_good_page" class="nearby_donate_page">
                     <div class="title">
                         <span style="align:center;">爱心义捐</span>
-                        <a href="#" style="float:right;">更多</a>
+                        <a href="/more_category.html" style="float:right;">更多</a>
                     </div>
                     <div class="good-tab-list container-fluid" id="donate_good">
                        <!--<div class="good-tab row">-->
@@ -76,7 +76,7 @@
                 <div style="width:100%;" id="nearby_donate_page" class="nearby_donate_page">
                     <div class="title">
                         <span style="align:center;">最近义捐</span>
-                        <a href="#" style="float:right;">更多</a>
+                        <a href="/more_donate.html" style="float:right;">更多</a>
                     </div>
                     <div class="good-tab-list container-fluid" id="nearby_donate">
                     </div>
