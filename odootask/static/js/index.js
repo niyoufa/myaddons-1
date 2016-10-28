@@ -51,7 +51,7 @@ $(function(){
                 $("#donate_good").append(String.format(''+
                     '<div class="good-tab row">'+
                        '<div class="col-xs-4">'+
-                           '<img src="/image?category_id={4}" alt="error" class="float-left" />'+
+                           '<img src="/image?category_id={4}" alt="暂无图片" class="float-left" />'+
                        '</div>'+
                        '<div class="col-xs-8 tab-content">'+
                            '<p>社区： {0}</p>'+
