@@ -9,9 +9,6 @@
                 <div class="container-fluid">
                    <div class="row" id="good_search_list_page">
                        <div id="good_upload_page" style="width:100%;">
-                            <div class="col-xs-12 good-detail-page-nav" style="padding-bottom:0px;">
-                                    更多
-                            </div>
                             <div class="col-xs-9" style="margin-top:10px;">
                                 <input id="community_name" type="text" placeholder="请输入社区名称" class="form-control"/>
                             </div>
