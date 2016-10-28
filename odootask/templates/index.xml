@@ -82,6 +82,10 @@
                     </div>
                 </div>
 
+                <div style="width:100%; position:fixed; left:0; bottom:0;text-align:center;">© 2016-2016
+                    <a href="https://github.com/nyflxy" target="_blank">倪有发</a>.
+                </div>
+
             </t>
             <t t-call="odootask.index_js"/>
         </template>

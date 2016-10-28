@@ -101,11 +101,11 @@ $(function(){
             //$(document).scrollLeft() 这是获取水平滚动条的距离
 
             // 下拉
-            if ($(document).scrollTop() <= 0 && flag) {
-                flag = false;
-                $("#more_donate_list").empty();
-                get_more_nearby_donate(1,10);
-            }
+//            if ($(document).scrollTop() <= 0 && flag) {
+//                flag = false;
+//                $("#more_donate_list").empty();
+//                get_more_nearby_donate(1,10);
+//            }
 
             // 上拉
             if ($(document).scrollTop() >= $(document).height() - $(window).height() && flag) {
@@ -115,7 +115,6 @@ $(function(){
                     page_size = pager['page_size'];
                     get_more_nearby_donate(page,page_size);
                 }else{
-                    alert("没有更多数据");
                     flag = true;
                 }
 
@@ -187,7 +186,6 @@ $(function(){
                     page_size = pager['page_size'];
                     get_more_category(page,page_size);
                 }else{
-                    alert("没有更多数据");
                     flag = true;
                 }
 
