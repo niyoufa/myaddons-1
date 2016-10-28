@@ -18,6 +18,7 @@
                                 <div class="detail-content">
                                     <span>物资种类:</span><span id="category_id" class="detail-content-item"></span><br/>
                                     <span>规格:</span><span id="amount" class="detail-content-item"></span><br/>
+                                    <span>社区:</span><span id="community" class="detail-content-item"></span><br/>
                                     <span>计量单位:</span><span id="unit" class="detail-content-item"></span><br/>
                                     <span>捐赠人:</span><span id="doantor" class="detail-content-item"></span><br/>
                                     <span>捐赠时间:</span><span id="donate_time" class="detail-content-item"></span><br/>

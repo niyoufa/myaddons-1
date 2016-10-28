@@ -32,12 +32,16 @@ $(function(){
                                 '捐赠物资 : {2}'+
                             '</p>'+
                             '<p>'+
+                                '捐赠社区 : {5}'+
+                            '</p>'+
+                            '<p>'+
                                 '日期 {3}'+
                             '</p>'+
                         '</div>'+
                         '<span class="good_numer" style="display:none;">{4}<span>'+
                     '</div>'
-                ,result[i].number,result[i].donator_id[1],result[i].category_id[1],result[i].create_date,result[i].number));
+                ,result[i].number,result[i].donator_id[1],result[i].category_id[1],result[i].create_date,result[i].number,
+                result[i].community[1]));
             }
             $(".good-tab").click(function(){
                 var good_number = $(this).find(".good_numer").text();

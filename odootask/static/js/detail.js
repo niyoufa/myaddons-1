@@ -9,6 +9,7 @@ $(function(){
         $("#category_id").html(result["category_id"][1]);
         $("#amount").html(result["amount"]);
         $("#unit").html(result["unit"][1]);
+        $("#community").html(result["community"][1]);
         $("#doantor").html(result["donator_id"][1]);
         $("#donate_time").html(result["create_date"]);
         $("#remark").html(result["remark"]);
