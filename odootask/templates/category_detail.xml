@@ -14,8 +14,8 @@
                             </div>
 
                             <div id="good_detail" style="margin-top:20px;width:100%;" class="col-xs-10">
+                                <img id="category_image" src="" alt="暂无图片" class="float-left" style="width:100%;height:200px;margin-bottom:10px;" />
                                 <div class="detail-content">
-                                    <img id="category_image" src="" alt="暂无图片" class="float-left" style="width:100%;height:200px;margin-bottom:10px;" />
                                     <span>名称:</span><span id="name" class="detail-content-item"></span><br/>
                                     <span id="good_type" class="detail-content-item" style="display:none;"></span>
                                     <span>规格:</span><span id="unit" class="detail-content-item"></span><br/>
