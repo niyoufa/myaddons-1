@@ -12,9 +12,8 @@
                             <div class="col-xs-10 good-detail-page-nav">
                                 捐赠详情
                             </div>
-
-                            <div id="good_detail" style="margin-top:20px;" class="col-xs-10">
-                                <label>物资详情</label><br/>
+                            <img id="category_image" src="" alt="暂无图片" class="float-left" style="width:100%;height:200px;margin-bottom:10px;" />
+                            <div id="good_detail" style="margin-top:10px;" class="col-xs-10">
                                 <div class="detail-content">
                                     <span>物资种类:</span><span id="category_id" class="detail-content-item"></span><br/>
                                     <span>规格:</span><span id="amount" class="detail-content-item"></span><br/>
@@ -27,7 +26,6 @@
                             </div>
 
                             <div id="track_detail" style="margin-top:10px;" class="col-xs-10">
-                                <label>物资追踪</label>
                                 <div data-mohe-type="kuaidi_new" class="g-mohe " id="mohe-kuaidi_new">
                                     <div id="mohe-kuaidi_new_nucom">
                                         <div class="mohe-wrap mh-wrap">
