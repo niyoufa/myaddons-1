@@ -18,6 +18,7 @@
         'templates/detail.xml',
         'templates/upload.xml',
         'templates/donator.xml',
+        'templates/category_detail.xml',
 
         'views/catalog.xml',
         'views/task.xml',

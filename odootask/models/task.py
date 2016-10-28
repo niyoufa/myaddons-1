@@ -326,6 +326,9 @@ class TaskCategory(osv.osv):
         'amount':fields.function(amount_func,
                                          type='float',method=True),
 
+        'source':fields.char(string='商品来源'),
+        'price':fields.float(string='义捐价格',default=0.0),
+
         # image: all image fields are base64 encoded and PIL-supported
         'image': fields.binary("Image",
             help="This field holds the image used as avatar for this contact, limited to 1024x1024px"),

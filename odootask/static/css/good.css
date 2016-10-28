@@ -16,9 +16,9 @@ body{background-color: #white;}
     font-style: italic;margin-left: 5px;}
 
 /*detail.xml*/
-#good_detail label{color:#B18F8F;}
+#good_detail label{color:#B18F8F;width:100%;}
 #track_detail label{color:#B18F8F;}
-#good_detail .detail-content{margin:10px;color:#8C8175;}
+#good_detail .detail-content{margin:10px;color:#8C8175;width:100%;}
 .good-detail-page-nav{font-size:18px;text-align: center;background-color: #EEEEEE;width:100%;
     padding-top: 5px;padding-bottom: 10px;}
 .detail-content-item{margin-left:20px;}

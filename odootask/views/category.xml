@@ -12,6 +12,8 @@
                     <field name="name" string="名称"/>
                     <field name="unit" string="计量单位"/>
                     <field name="community" string="社区"/>
+                    <field name="source" string="商品来源"/>
+                    <field name="price" string="义捐价格"/>
                     <field name="donator_amount" string="义捐数量"/>
                     <field name="donatee_amount" string="发放数量"/>
                     <field name="amount" string="库存数量"/>

@@ -51,7 +51,7 @@ $(function(){
                 $("#donate_good").append(String.format(''+
                     '<div class="good-tab row">'+
                        '<div class="col-xs-4">'+
-                           '<img src="/image?good_number=20161027031125236731" alt="error" class="float-left" />'+
+                           '<img src="/image?category_id={4}" alt="error" class="float-left" />'+
                        '</div>'+
                        '<div class="col-xs-8 tab-content">'+
                            '<p>社区： {0}</p>'+
@@ -59,13 +59,14 @@ $(function(){
                            '<p>规格 : {2}</p>'+
                            '<p>累计义捐数量 : {3} </p>'+
                        '</div>'+
-                       '<span class="good_numer" style="display:none;">20161027031125236731</span>'+
+                       '<span class="category_id" style="display:none;">{4}</span>'+
                     '</div>'
-                ,result[i].community[1],result[i].name,result[i].unit[1],result[i].donator_amount));
+                ,result[i].community[1],result[i].name,result[i].unit[1],result[i].donator_amount,
+                    result[i].id));
             }
-            $(".good-tab").click(function(){
-//                var good_number = $(this).find(".good_numer").text();
-//                location.href = "/detail.html?number="+good_number;
+            $("#donate_good div.good-tab").click(function(){
+                var category_id = $(this).find("span.category_id").text();
+                location.href = "/category_detail.html?category_id="+category_id;
             });
     },"json");
 

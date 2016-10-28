@@ -144,6 +144,10 @@
             <script src="odootask/static/js/donate_type.js"></script>
         </template>
 
+        <template id="category_detail_js" name="js">
+            <script src="odootask/static/js/category_detail.js"></script>
+        </template>
+
         <template id="main_layout">
             &lt;!DOCTYPE html&gt;
             <html lang="zh-CN">

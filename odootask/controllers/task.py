@@ -197,6 +197,11 @@ class GoodsController(openerp.http.Controller):
         context = dict()
         return odootask_qweb_render.render("odootask.donator", context=context)
 
+    @openerp.http.route("/category_detail.html", type='http', auth="none", methods=["GET"])
+    def category_detail(self, **kwargs):
+        context = dict()
+        return odootask_qweb_render.render("odootask.category_detail", context=context)
+
     @http.route('/good', type='http', auth="none", methods=["GET"])
     @serialize_exception
     def good(self, **kw):
@@ -262,15 +267,33 @@ class GoodsController(openerp.http.Controller):
 
     @http.route('/hot_good_types', type='http', auth="none", methods=["GET"])
     @serialize_exception
-    def good_types(self, **kw):
+    def hot_good_types(self, **kw):
         res = utils.init_response_data()
         try:
             env = request.env
             good_types = env['odootask.task_category'].sudo().search_read()
             good_types.sort(key=lambda obj: obj["donator_amount"])
             good_types.reverse()
-            good_types = good_types[0:5]
+            good_types = good_types[0:3]
             res["data"]["good_types"] = good_types
+        except Exception, e:
+            res["code"] = status.Status.ERROR
+            res["error_info"] = str(e)
+            return res
+        return res
+
+    @http.route('/good_type', type='http', auth="none", methods=["GET"])
+    @serialize_exception
+    def good_type(self, **kw):
+        res = utils.init_response_data()
+        try:
+            env = request.env
+            category_id = kw.get("category_id","")
+            if category_id != "":
+                category_id = int(category_id)
+                domain= [("id","=",category_id)]
+                good_types = env['odootask.task_category'].sudo().search_read(domain)
+                res["data"]["good_type"] = good_types[0]
         except Exception, e:
             res["code"] = status.Status.ERROR
             res["error_info"] = str(e)
@@ -465,12 +488,16 @@ class GoodsController(openerp.http.Controller):
         res = None
         env = request.env
         good_number = kw.get("good_number", "")
-        task = env['odootask.task'].sudo().search_read([("number", "=", good_number)])
-        if len(task) == 0:
-            return res
-        tracks = env['odootask.track'].sudo().search_read([("id", "in", task[0]["track"])],
-                                                          order="%s desc" % "create_date")
-        category_id = task[0]["category_id"][0]
+        category_id = kw.get("category_id",0)
+        if good_number != "":
+            task = env['odootask.task'].sudo().search_read([("number", "=", good_number)])
+            if len(task) == 0:
+                return res
+            tracks = env['odootask.track'].sudo().search_read([("id", "in", task[0]["track"])],
+                                                              order="%s desc" % "create_date")
+            category_id = task[0]["category_id"][0]
+        else:
+            category_id = int(category_id)
         category_obj = env['odootask.task_category'].sudo().search([("id", "=", category_id)])
         image_data = category_obj.image
         import base64
