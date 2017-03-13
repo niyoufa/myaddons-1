@@ -172,6 +172,11 @@ class TaskController(openerp.http.Controller):
                 pass
 
 class GoodsController(openerp.http.Controller):
+    @openerp.http.route("/MP_verify_UO7AG2TZ01CWYhkZ.txt", type='http', auth="none", methods=["GET"])
+    def wx_txt_page(self, **kwargs):
+        context = dict()
+        return "UO7AG2TZ01CWYhkZ"
+
     @openerp.http.route("/index.html", type='http', auth="none", methods=["GET"])
     def index_page(self, **kwargs):
         context = dict()
