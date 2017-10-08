@@ -9,9 +9,11 @@
         <field name="arch" type="xml">
                 <form>
                     <group col="2">
-                        <field name= "name" string="名称"/>
+                        <field name= "name" string="姓名"/>
                         <field name= "phone" string="手机号" />
                         <field name= "cardid" string="身份证"/>
+                        <field name= "address" string="地址" />
+                        <field name="donatee_type" string="人员类型" />
                         <field name="partner_type" string="类型"/>
                     </group>
                     <notebook colspan="4">
@@ -34,9 +36,11 @@
         <field name="model">odootask.donatee</field>
         <field name="arch" type="xml">
             <tree>
-                <field name= "name" string="名称"/>
+                <field name= "name" string="姓名"/>
                 <field name= "phone" string="手机号" />
                 <field name= "cardid" string="身份证"/>
+                <field name= "address" string="地址" />
+                <field name="donatee_type" string="人员类型" />
             </tree>
         </field>
     </record>
@@ -46,7 +50,7 @@
         <field name="model">odootask.donatee</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name" string="名称" />
+                <field name="name" string="姓名" />
                 <field name="phone" string="手机号" />
                 <field name="cardid" string="身份证"/>
             </search>

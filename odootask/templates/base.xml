@@ -21,6 +21,7 @@
             <script type="text/javascript" src="/odootask/static/js/jquery.fileupload.js"></script>
             <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
             <script src="/odootask/static/js/bootstrap.min.js"></script>
+            <script src="/odootask/static/js/ichart.1.2.min.js"></script>
 
             <script src="odootask/static/js/main_nav.js"></script>
         </template>
@@ -144,6 +145,14 @@
 
         <template id="category_detail_js" name="js">
             <script src="odootask/static/js/category_detail.js"></script>
+        </template>
+
+        <template id="pay_donate_js" name="js">
+            <script src="odootask/static/js/pay_donate.js"></script>
+        </template>
+
+        <template id="statistic_js" name="js">
+            <script src="odootask/static/js/statistic.js"></script>
         </template>
 
         <template id="main_layout">

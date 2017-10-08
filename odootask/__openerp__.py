@@ -22,7 +22,13 @@
         'templates/more_category.xml',
         'templates/more_donate.xml',
 
+        'templates/donate_search.xml',
+
+        'templates/pay_donate.xml',
+        'templates/statistic.xml',
+
         'views/catalog.xml',
+        'views/community.xml',
         'views/task.xml',
         'views/grant.xml',
         'views/donator.xml',

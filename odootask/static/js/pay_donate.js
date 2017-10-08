@@ -203,20 +203,24 @@ function md5(string) {
     return (md5_WordToHex(a) + md5_WordToHex(b) + md5_WordToHex(c) + md5_WordToHex(d)).toLowerCase();  
 }  
 
-
-
-
-
-
-
-    if( location.search  ){
-        var code = location.search.split("?")[1].split("&")[0].split("=")[1];
-        console.log(code);
-        $.get("/get_access_token?code="+code,function(data){
-            console.log(data);
+    if( location.search && location.search.split("?")[1].search("code") != -1 ){
+        //alert("ok");
+        var search_params = location.search.split("?")[1].split("&");
+        var param1 = search_params[0];
+        var param2 = search_params[1];
+        if(param1.split("=")[0] == "code"){
+            var code = param1.split("=")[1];
+            var number = param2.split("=")[1];
+        }else{
+            var code = param2.split("=")[1];
+            var number = param1.split("=")[1];
+        }
+        //alert("code="+code+"number="+number);
+        $.get("http://dszyicang.com:8069/get_access_token?code="+code,function(data){
+            //alert(data);
             var openid = data.data["openid"];
-            $.post("/order", { "openid":openid }, function(data){
-                console.log(data);
+            $.post("http://dszyicang.com:8069/order", { "openid":openid, "number":number }, function(data){
+                //alert(data);
                 var code = data.code;    
                 var order_data = data.data;
                 function onBridgeReady(){
@@ -224,7 +228,6 @@ function md5(string) {
                     var timeStamp = String((new Date()).valueOf());
                     var nonceStr = order_data.nonce_str;
                     var package_str = "prepay_id="+order_data.prepay_id;
-                    //var paySign = order_data.sign;
                     var stringA = "appId="+appid+"&nonceStr="+nonceStr+"&package="+package_str+"&signType=MD5"+"&timeStamp="+timeStamp;
                     var stringSignTemp = stringA + "&key=06a9b2dd1d526476ffde40b13419c142";
                     var paySign = md5(stringSignTemp).toUpperCase();
@@ -240,9 +243,8 @@ function md5(string) {
                          "paySign":paySign
                          },
                          function(res){ 
-                             alert(res);
                              if(res.err_msg == "get_brand_wcpay_request:ok" ) {
-                                 alert("pay success!");
+                                 location.href = "http://dszyicang.com/#/shjj/today";
                              }
                          }); 
                   }
@@ -261,78 +263,8 @@ function md5(string) {
             }, "json");            
         }, "json");
     }else{
-        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5686b4e04b2a4f66&redirect_uri=http://dszyicang.com/index.html&response_type=code&scope=snsapi_base&state=test#wechat_redirect";
+        var number = location.search.split("?")[1].split("&")[0].split("=")[1];
+        location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx5686b4e04b2a4f66&redirect_uri=http://dszyicang.com/pay_donate.html?number="+number+"&response_type=code&scope=snsapi_base&state="+number+"#wechat_redirect";
     }
-
-    initGoodSearchPage();
-
-    function initGoodSearchPage(){
-        $("#number")[0].blur();
-    }
-
-    $("#number").focus(function(){
-        $("#number")[0].blur();
-        location.href = "/search.html" ;
-    });
-
-    $.get("/nearby_donate",{},function(data){
-        if(data.code != 1){
-            alert("加载数据失败!");
-            return;
-        }
-        result = data.data.goods;
-        for(var i=0,len=result.length;i<len;i++){
-            $("#nearby_donate").append(String.format(''+
-                '<div class="good-tab row">'+
-                    '<div class="col-xs-4">'+
-                            '<p>{0}</p>'+
-                            '<p>{1}</p>'+
-                    '</div>'+
-                    '<div class="col-xs-8 tab-content">'+
-                        '<p>'+
-                            '捐赠人：{2}'+
-                        '</p>'+
-                        '<p>'+
-                            '捐赠物资 : {3}'+
-                        '</p>'+
-                    '</div>'+
-                '</div>'
-            ,result[i].show_date,result[i].show_time,result[i].donator_id[1],result[i].category_id[1]));
-        }
-    },"json");
-
-    $("div.title span").click(function(){
-        $($(this).parent().parent()).find("div.good-tab-list").toggle();
-    });
-
-    $.get("/hot_good_types",{},function(data){
-        if(data.code != 1){
-                alert("加载数据失败!");
-                return;
-            }
-            result = data.data.good_types;
-            $("#donate_good").empty();
-            for(var i=0,len=result.length;i<len;i++){
-                $("#donate_good").append(String.format(''+
-                    '<div class="good-tab row">'+
-                       '<div class="col-xs-4">'+
-                           '<img src="/image?category_id={4}" alt="暂无图片" class="float-left" />'+
-                       '</div>'+
-                       '<div class="col-xs-8 tab-content">'+
-                           '<p>社区： {0}</p>'+
-                           '<p>名称 : {1}</p>'+
-                           '<p>规格 : {2}</p>'+
-                           '<p>累计义捐数量 : {3} </p>'+
-                       '</div>'+
-                       '<span class="category_id" style="display:none;">{4}</span>'+
-                    '</div>'
-                ,result[i].community[1],result[i].name,result[i].unit[1],result[i].donator_amount,
-                    result[i].id));
-            }
-            $("#donate_good div.good-tab").click(function(){
-                var category_id = $(this).find("span.category_id").text();
-                location.href = "/category_detail.html?category_id="+category_id;
-            });
-    },"json");
 
 });

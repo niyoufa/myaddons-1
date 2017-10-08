@@ -2,8 +2,8 @@
 import pdb
 
 status_collection = {
-    0: u"error",
-    1: u"success",
+    1: u"error",
+    0: u"success",
     2: u"exist",
     3: u"not exist",
     4: u"not id",
@@ -15,8 +15,8 @@ status_collection = {
 
 
 class Status:
-    ERROR = 0
-    OK = 1
+    ERROR = 1
+    OK = 0
     EXIST = 2
     NOT_EXIST = 3
     NOT_ID = 4

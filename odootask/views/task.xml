@@ -15,6 +15,8 @@
                     <field name="create_date" string="捐赠时间"/>
                     <field name="community" string="社区"/>
                     <field name="remark" string="备注"/>
+                    <field name="pay_state" string="支付状态" />
+                    <field name="state" string="state" />
                 </tree>
             </field>
         </record>
@@ -31,6 +33,8 @@
                             <field name="unit" string="规格"/>
                             <field name="donator_id" string="捐赠人"/>
                             <field name="create_date" string="捐赠时间"/>
+                            <field name="community" string="社区"/>
+                            <field name="state" string="状态" />
                             <field name="remark" string="备注"/>
                         </group>
                         <notebook>
@@ -40,6 +44,7 @@
                                     <field name="time" string="时间"></field>
                                     <field name="type" string="描述"></field>
                                     <field name="image" string="图片" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'></field>
+                                    <field name="desc" string="备注"></field>
                                 </tree>
                                 </field>
                                 <div class="oe_clear"/>

@@ -16,16 +16,13 @@
                         <!-- 轮播（Carousel）项目 -->
                         <div class="carousel-inner">
                             <div class="item active">
-                                <img src="http://dszyicang.com:8085/static/media/uploads/dsz/Carousels/bannar1.png" alt="First slide"/>
+                                <img src="http://180.96.11.69:8500/static/image/app/921d3462-6855-4205-a972-2fffe2ca10bfbannar.jpg" alt="First slide"/>
                             </div>
                             <div class="item">
-                                <img src="http://dszyicang.com:8085/static/media/uploads/dsz/Carousels/bannar2.png" alt="Second slide" />
+                                <img src="http://180.96.11.69:8500/static/image/app/921d3462-6855-4205-a972-2fffe2ca10bfbannar.jpg" alt="Second slide" />
                             </div>
                             <div class="item">
-                                <img src="http://dszyicang.com:8085/static/media/uploads/dsz/Carousels/bannar3.png" alt="Third slide" />
-                            </div>
-                            <div class="item">
-                                <img src="http://dszyicang.com:8085/static/media/uploads/dsz/Carousels/bannar4.png" alt="Third slide" />
+                                <img src="http://180.96.11.69:8500/static/image/app/921d3462-6855-4205-a972-2fffe2ca10bfbannar.jpg" alt="Third slide" />
                             </div>
                         </div>
                         <!-- 轮播（Carousel）导航 -->

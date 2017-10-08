@@ -7,7 +7,7 @@ $(function(){
         }
         result = data.data.good;
         $("#category_id").html(result["category_id"][1]);
-        $("#category_image").attr("src","/image?category_id="+String(result.category_id[0]))
+        $("#category_image").attr("src","/image?image_size=image&category_id="+String(result.category_id[0]))
         $("#amount").html(result["amount"]);
         $("#unit").html(result["unit"][1]);
         $("#community").html(result["community"][1]);

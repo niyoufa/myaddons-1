@@ -18,6 +18,8 @@
                     <field name="donatee_amount" string="发放数量"/>
                     <field name="amount" string="库存数量"/>
                     <field name="image" string="图片" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'/>
+                    <field name="status" string="状态" />
+                    <field name="priority" string="优先级" />
                 </group>
             </form>
         </field>
@@ -36,6 +38,8 @@
                 <field name="donatee_amount" string="发放数量"/>
                 <field name="amount" string="库存数量"/>
                 <field name="create_date" string="创建时间" />
+                <field name="status" string="状态" />
+                <field name="priority" string="优先级" />
             </tree>
         </field>
     </record>

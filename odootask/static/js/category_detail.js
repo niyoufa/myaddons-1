@@ -1,7 +1,6 @@
 $(function(){
 
-var api_path = "http://139.224.26.81:8500";
-//      var api_path = "http://localhost:8500";
+var api_path = "http://139.224.26.81:8600";
 
     var category_id = location.href.split("?category_id=")[1];
     $.get("/good_type",{"category_id":category_id},function(data){
@@ -12,7 +11,7 @@ var api_path = "http://139.224.26.81:8500";
         result = data.data.good_type;
         if(result){
             console.log(result);
-            $("#category_image").attr("src","/image?category_id="+String(result.id))
+            $("#category_image").attr("src","/image?image_size=image&category_id="+String(result.id))
             $("#name").html(result.name);
             $("#good_type").html(result.id);
             $("#unit").html(result.unit[1]);
@@ -139,9 +138,9 @@ var api_path = "http://139.224.26.81:8500";
                     alert("提交异常!");
                     return;
                 }
-                console.log(data.data);
-                alert("义捐成功,稍后您将收到短信通知！");
-                location.href = "/index.html";
+                var data = data.data;
+                var number = data.good.number;
+                location.href = "/pay_donate.html?number="+number;
             },"json");
 
         },"json");

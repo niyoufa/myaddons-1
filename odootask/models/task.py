@@ -22,6 +22,12 @@ class Task(osv.osv):
     def _has_image(self, name, args):
         return dict((p.id, bool(p.image)) for p in self)
 
+    def create(self, cr, uid, vals, context=None):
+        curr_time = str(datetime.datetime.now())
+        vals["number"] = curr_time.replace("-", "").replace(" ", "").replace(":", "").replace(".", "")
+        res = super(Task, self).create(cr, uid, vals, context=context)
+        return res
+
     def write(self,cr,uid,ids,vals,context=None):
         context = context or {}
         if vals.has_key("id"):
@@ -32,6 +38,10 @@ class Task(osv.osv):
     _columns = {
 
         'number':fields.char('Number'),
+
+        'out_trade_no':fields.char("OutTradeNo"),
+        'pay_state':fields.char("PayState"),
+       
         'community': fields.many2one("odootask.community"),
         'category_id':fields.many2one('odootask.task_category'),
         'amount':fields.float(),
@@ -244,16 +254,18 @@ class GoodPartner(osv.osv):
         'donatee_goods':fields.one2many("odootask.task","donee_id"),
     }
 
-# 受赠人
+# 受赠人、捐赠者
 class Donatee(osv.osv):
     _name = "odootask.donatee"
 
     _columns = {
-        'name':fields.char('名称'),
+        'name':fields.char('姓名'),
         'phone':fields.char('手机号'),
         'partner_type': fields.selection([("donator", "志愿者"), ("donatee", "受赠人")]),
         'cardid': fields.char("身份证"),
         'donatee_goods': fields.one2many("odootask.task", "donee_id"),
+        'address':fields.char("地址"),
+        'donatee_type':fields.many2one("odootask.donatee_type", "人员类别"),
     }
 
 # odootask.task_category
@@ -328,6 +340,9 @@ class TaskCategory(osv.osv):
 
         'source':fields.char(string='商品来源'),
         'price':fields.float(string='义捐价格',default=0.0),
+        'status':fields.selection(
+            [("used","启用"), ("unused","禁用")], default="used"),
+        'priority':fields.integer(string="优先级", default=1),
 
         # image: all image fields are base64 encoded and PIL-supported
         'image': fields.binary("Image",
@@ -377,9 +392,44 @@ class Unit(osv.osv):
 class Community(osv.osv):
     _name = "odootask.community"
 
+    @api.multi
+    def _get_image(self, name, args):
+        return dict((p.id, tools.image_get_resized_images(p.image)) for p in self)
+
+    @api.one
+    def _set_image(self, name, value, args):
+        return self.write({'image': tools.image_resize_image_big(value)})
+
+    @api.multi
+    def _has_image(self, name, args):
+        return dict((p.id, bool(p.image)) for p in self)
+
     _columns = {
         'name':fields.char('名称'),
         'number':fields.char('编号'),
+        # image: all image fields are base64 encoded and PIL-supported
+        'image': fields.binary("Image",
+            help="This field holds the image used as avatar for this contact, limited to 1024x1024px"),
+        'image_medium': fields.function(_get_image, fnct_inv=_set_image,
+            string="Medium-sized image", type="binary", multi="_get_image",
+            store={
+                'odootask.community': (lambda self, cr, uid, ids, c={}: ids, ['image'], 10),
+            },
+            help="Medium-sized image of this contact. It is automatically "\
+                 "resized as a 128x128px image, with aspect ratio preserved. "\
+                 "Use this field in form views or some kanban views."),
+        'image_small': fields.function(_get_image, fnct_inv=_set_image,
+            string="Small-sized image", type="binary", multi="_get_image",
+            store={
+                'odootask.community': (lambda self, cr, uid, ids, c={}: ids, ['image'], 10),
+            },
+            help="Small-sized image of this contact. It is automatically "\
+                 "resized as a 64x64px image, with aspect ratio preserved. "\
+                 "Use this field anywhere a small image is required."),
+        'has_image': fields.function(_has_image, type="boolean"),
+
+        'image_path':fields.char("图片地址"),
+        "image_url":fields.char("图片查询url"),
     }
 
 class Track(osv.osv):
@@ -403,6 +453,7 @@ class Track(osv.osv):
         'grant_number':fields.many2one('odootask.grant'),
         'type':fields.many2one('odootask.track_type'),
         'time':fields.datetime('Time'),
+        'desc':fields.text("备注"),
         
         # image: all image fields are base64 encoded and PIL-supported
         'image': fields.binary("Image",
@@ -431,7 +482,7 @@ class TrackType(osv.osv):
 
     _columns = {
         'name':fields.char('名称'),
-        'desc':fields.text('Desc'),
+        'desc':fields.text('描述'),
         'community': fields.many2one("odootask.community"),
     }
 
@@ -443,4 +494,13 @@ class CommunityUser(osv.osv):
 
     _columns = {
         'community':fields.many2one("odootask.community","社区"),
+    }
+
+# 人员类别
+class DonateeType(osv.osv):
+    _name = "odootask.donatee_type"
+
+    _columns = {
+        'name':fields.char("名称"),
+        'desc':fields.text("描述"),
     }

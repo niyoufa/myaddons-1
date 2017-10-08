@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="statistic" name="statistic">
+            <t t-call="odootask.main_layout">
+                <t t-set="title" t-value="''"/>
+                <div class="container-fluid">
+                    <table class="table">
+	                <caption>今日热捐商品</caption>
+	                <thead>
+		            <tr>
+			        <th>商品名称</th>
+			        <th>捐赠数量</th>
+		            </tr>
+	                </thead>
+	                <tbody id="category_tbody">
+	                </tbody>
+                    </table>
+
+                    <table class="table">
+                        <caption>今日热捐社区</caption>
+                        <thead>
+                            <tr>
+                                <th>社区名称</th>
+                                <th>捐赠金额(元)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="community_tbody">
+                        </tbody>
+                    </table>
+
+                </div>
+            </t>
+            <t t-call="odootask.statistic_js"/>
+        </template>
+    </data>
+</openerp>

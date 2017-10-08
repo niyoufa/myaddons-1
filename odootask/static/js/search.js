@@ -1,4 +1,5 @@
 $(function(){
+    $("#loading").hide();
     initGoodSearchPage();
 
     function initGoodSearchPage(){
@@ -8,12 +9,15 @@ $(function(){
     }
 
     $("#cancel_search").click(function(){
-        location.href = "/index.html" ;
+        $("#more_category_list").empty();
+        get_more_category(1,10);
     });
 
     $("#list_number").blur(function(){
         var phone = $("#list_number").val();
+        $("#loading").show();
         $.get("/goods",{"phone":phone},function(data){
+            $("#loading").hide();
             if(data.code != 1){
                 alert("加载数据失败!");
                 return;
@@ -24,7 +28,7 @@ $(function(){
                 $("#good_search_list").append(String.format(''+
                     '<div class="good-tab row">'+
                         '<div class="col-xs-4">'+
-                                '<img src="/image?good_number={0}" alt="error" class="float-left"/>'+
+                                '<img src="/image?category_id={6}" alt="" class="float-left"/>'+
                         '</div>'+
                         '<div class="col-xs-8 tab-content">'+
                             '<p>'+
@@ -43,7 +47,7 @@ $(function(){
                         '<span class="good_numer" style="display:none;">{4}<span>'+
                     '</div>'
                 ,result[i].number,result[i].donator_id[1],result[i].category_id[1],result[i].create_date,result[i].number,
-                result[i].community[1]));
+                result[i].community[1], result[i].category_id[0]));
             }
             $(".good-tab").click(function(){
                 var good_number = $(this).find(".good_numer").text();
@@ -63,7 +67,9 @@ $(function(){
     }
 
     function get_more_nearby_donate(page,page_size){
+        $("#loading").show();
         $.get("/nearby_donate",{"more":true,"page_size":page_size,"page":page},function(data){
+        $("#loading").hide();
         if(data.code != 1){
             alert("加载数据失败!");
             return;
@@ -128,9 +134,12 @@ $(function(){
     }
 
     function get_more_category(page,page_size){
+        $("#loading").show();
         var community_name = $("#community_name").val();
         $.get("/more_good_types",{"more":true,"page_size":page_size,"page":page,
             "community_name":community_name},function(data){
+
+            $("#loading").hide();
             if(data.code != 1){
                 alert("加载数据失败!");
                 return;
@@ -140,18 +149,19 @@ $(function(){
                 $("#more_category_list").append(String.format(''+
                     '<div class="good-tab row">'+
                        '<div class="col-xs-4">'+
-                           '<img src="/image?category_id={4}" alt="暂无图片" class="float-left" />'+
+                           '<img src="image?category_id={4}" alt="暂无图片" class="float-left" />'+
                        '</div>'+
                        '<div class="col-xs-8 tab-content">'+
                            '<p>社区： {0}</p>'+
                            '<p>名称 : {1}</p>'+
                            '<p>规格 : {2}</p>'+
+                           '<p>单价 : {5}</p>'+
                            '<p>累计义捐数量 : {3} </p>'+
                        '</div>'+
                        '<span class="category_id" style="display:none;">{4}</span>'+
                     '</div>'
                 ,result[i].community[1],result[i].name,result[i].unit[1],result[i].donator_amount,
-                    result[i].id));
+                    result[i].id, result[i].price));
             }
             $("#more_category_list div.good-tab").click(function(){
                 var category_id = $(this).find("span.category_id").text();
@@ -194,11 +204,17 @@ $(function(){
 
 
         // 根据社区名称匹配
-        $("#community_name").blur(function(){
-            flag = false;
-            $("#more_category_list").empty();
+        //$("#community_name").blur(function(){
+        //    flag = false;
+        //    $("#more_category_list").empty();
+        //    get_more_category(1,10);
+        //});
+       
+        $("#do_search").click(function(){
+ 	    $("#more_category_list").empty();
             get_more_category(1,10);
         });
+
     }
 
 });

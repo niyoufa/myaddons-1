@@ -2,10 +2,15 @@
 body{background-color: #white;}
 
 /*search.xml*/
-#good_search_list_page{background-color:#EEEEEE;padding-bottom: 10px;}
+#good_search_list_page{background-color:#EEEEEE;padding-bottom: 10px;position:fixed;z-index:100;width:100%; }
 #cancel_search{line-height: 31px;font-size: 17px;}
+#do_search{line-height: 31px;font-size: 17px;padding: 5px;background-color: #337ab7;border-radius: 5px;color: white;margin-left: 30px; }
+#good_upload_page{padding-left: 0.1rem;font-size: 18px;font-weight: 500;color: #27a; }
+#community_name{ width: 100%;border-radius: 25px;margin-left:10px;font-size: 16px;padding: 4px;border: none;outline: none;padding-left:10px;}
+#list_number{ width: 100%;border-radius: 25px;margin-left:10px;font-size: 16px;padding: 4px;border: none;outline: none;padding-left:10px; }
+#loading{ position:fixed;top:100px;left:100px; }
 
-.good-tab-list{border-top: solid 1px;background-color: white;border-color: #EEEEEE;}
+.good-tab-list{border-top: solid 1px;background-color: white;border-color: #EEEEEE;margin-top:55px; }
 .good-tab-list .good-tab{border-bottom:solid 1px;width:100%; margin:auto;margin-top: 10px;border-color: #EEEEEE;}
 .good-tab-list .good-tab img{width:80px;height:80px;margin-left: -10px;}
 .good-tab-list .good-tab .tab-content{margin-left: -10px;}

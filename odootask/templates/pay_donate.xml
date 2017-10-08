@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <template id="pay_donate" name="pay_donate">
+            <t t-call="odootask.main_layout">
+                <t t-set="title" t-value="''"/>
+                <!-- 轮播图 -->
+                <div class="image-items" style="width:100%;" id="my_carousel_page">
+                </div>
+            </t>
+            <t t-call="odootask.pay_donate_js"/>
+        </template>
+    </data>
+</openerp>

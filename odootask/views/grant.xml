@@ -39,6 +39,7 @@
                                     <field name="time" string="时间"></field>
                                     <field name="type" string="描述"></field>
                                     <field name="image" string="图片" widget='image' class="oe_avatar oe_left" options='{"preview_image": "image_medium"}'></field>
+                                    <field name="desc" string="备注"></field>
                                 </tree>
                                 </field>
                                 <div class="oe_clear"/>

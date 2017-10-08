@@ -14,12 +14,14 @@
                         </div>
 
                         <div class="col-xs-3" style="margin-top:10px;">
-                            <a id="cancel_search" href="#">取消</a>
+                            <a id="cancel_search" href="#">查询</a>
                         </div>
-
+                  
                    </div>
                </div>
-
+                
+                <img src="/odootask/static/images/load.gif" id="loading" style="display:none;"/>
+                    
                 <div class="good-tab-list container-fluid" id="good_search_list">
                 </div>
             </t>
